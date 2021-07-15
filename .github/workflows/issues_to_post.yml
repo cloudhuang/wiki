@@ -27,15 +27,13 @@ jobs:
           mkdir -p "$save_to"
           cd "$save_to"
         
-          HEADER="
-            ---
-            title: $POST_TITLE
-            date: $(date -d "$CREATED_AT" '+%Y-%m-%d')
-            tags: ${{ join(github.event.issue.labels.*.name, ', ') }}
-            ---
-          "
-          echo $HEADER >> index.md
-          echo "\n" >> index.md
+          echo "---" >> index.md
+          echo "title: $POST_TITLE" >> index.md
+          echo "date: $(date -d "$CREATED_AT" '+%Y-%m-%d')" >> index.md
+          echo "tags: [${{ join(github.event.issue.labels.*.name, ', ') }}]" >> index.md
+          echo "---" >> index.md
+          
+          echo "" >> index.md
           echo $POST_BODY >> index.md
           
       - name: Create Pull Request
