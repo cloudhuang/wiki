@@ -21,7 +21,7 @@ jobs:
           # echo "$POST_TITLE - $CREATED_AT"
           YEAR=$(date -d "$CREATED_AT" '+%Y')
           # Passing the var to next step
-          echo "PUBLISHED_YEAR=$HOME/data" >> $GITHUB_ENV
+          echo "PUBLISHED_YEAR=$YEAR" >> $GITHUB_ENV
           # echo $YEAR
           # echo $POST_BODY        
           save_to="content/post/$YEAR/$POST_TITLE"
