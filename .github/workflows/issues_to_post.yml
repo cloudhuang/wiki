@@ -16,6 +16,7 @@ jobs:
           POST_TITLE: ${{ github.event.issue.title }}
           POST_BODY: ${{ github.event.issue.body }}
           CREATED_AT: ${{ github.event.issue.created_at }}
+          LABELS: ${{ github.event.issue.labels }}
         run: |
           # echo "$POST_TITLE - $CREATED_AT"
           YEAR=$(date -d "$CREATED_AT" '+%Y')
@@ -24,7 +25,17 @@ jobs:
           save_to="content/posts/$YEAR/$POST_TITLE"
           mkdir -p "$save_to"
           cd "$save_to"
-          echo $POST_BODY > index.md
+        
+          header = "
+            ---
+            title: $POST_TITLE
+            date: $(date -d "$CREATED_AT" '+%Y-%m-%d')
+            tags: $LABELS
+            ---
+          "
+          echo $header >> index.md
+          echo "\n" >> index.md
+          echo $POST_BODY >> index.md
           
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
