@@ -18,6 +18,8 @@ jobs:
           CREATED_AT: ${{ github.event.issue.created_at }}
           LABELS: ${{ github.event.issue.labels }}
         run: |
+          echo "${{ github.event.issue.labels}}"
+          echo "-------------------------------------"
           # echo "$POST_TITLE - $CREATED_AT"
           YEAR=$(date -d "$CREATED_AT" '+%Y')
           # echo $YEAR
