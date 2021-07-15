@@ -16,9 +16,8 @@ jobs:
           POST_TITLE: ${{ github.event.issue.title }}
           POST_BODY: ${{ github.event.issue.body }}
           CREATED_AT: ${{ github.event.issue.created_at }}
-          LABELS: ${{ github.event.issue.labels }}
         run: |
-          echo "${{ github.event.issue.labels}}"
+          echo "${{ github.event.issue.labels }}"
           echo "-------------------------------------"
           # echo "$POST_TITLE - $CREATED_AT"
           YEAR=$(date -d "$CREATED_AT" '+%Y')
@@ -32,7 +31,7 @@ jobs:
             ---
             title: $POST_TITLE
             date: $(date -d "$CREATED_AT" '+%Y-%m-%d')
-            tags: $LABELS
+            tags: ${{ github.event.issue.labels }}
             ---
           "
           echo $header >> index.md
