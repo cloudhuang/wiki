@@ -15,5 +15,6 @@ jobs:
         env:
           POST_TITLE: ${{ github.event.issue.title }}
           POST_BODY: ${{ github.event.issue.body }}
+          CREATED_AT: ${{ github.event.issue.created_at }}
         run: |
-          echo "$POST_TITLE"
+          echo "$POST_TITLE - $CREATED_AT" 
