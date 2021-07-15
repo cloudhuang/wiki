@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    if: ${{ contains(github.event.issue.labels.*.name, 'publish') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -21,7 +22,7 @@ jobs:
           YEAR=$(date -d "$CREATED_AT" '+%Y')
           # echo $YEAR
           # echo $POST_BODY        
-          save_to="content/posts/$YEAR/$POST_TITLE"
+          save_to="content/post/$YEAR/$POST_TITLE"
           mkdir -p "$save_to"
           cd "$save_to"
         
@@ -35,13 +36,15 @@ jobs:
           echo $POST_BODY >> index.md
           
       - name: Create Pull Request
+        env:
+          CREATED_AT: ${{ github.event.issue.created_at }}
         uses: peter-evans/create-pull-request@v3
         with:
           delete-branch: true
           title: "publish: ${{ github.event.issue.title}}"
           body: |
             Automagically sprouted for publishing.
-            Merging will publish to: https://shazow.net/posts/${{ github.event.issue.title }}
+            Merging will publish to: https://cloudhuang.github.io/post/$(date -d "$CREATED_AT" '+%Y')/${{ github.event.issue.title }}
             Closes #${{ github.event.issue.number }}
           reviewers: "${{ github.repository_owner }}"
           commit-message: "post: ${{ github.event.issue.title }}"
