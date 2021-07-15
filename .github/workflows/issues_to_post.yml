@@ -19,6 +19,21 @@ jobs:
         run: |
           # echo "$POST_TITLE - $CREATED_AT"
           YEAR=$(date -d "$CREATED_AT" '+%Y')
-          echo $YEAR
-          echo $POST_BODY        
-  
+          # echo $YEAR
+          # echo $POST_BODY        
+          save_to="content/posts/$YEAR/$POST_TITLE"
+          cd "$save_to"
+          echo > index.md << EOF
+          $POST_BODY
+          EOF
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          delete-branch: true
+          title: "publish: ${{ github.event.issue.title}}"
+          body: |
+            Automagically sprouted for publishing.
+            Merging will publish to: https://shazow.net/posts/${{ github.event.issue.title }}
+            Closes #${{ github.event.issue.number }}
+          reviewers: "${{ github.repository_owner }}"
+          commit-message: "post: ${{ github.event.issue.title }}"
