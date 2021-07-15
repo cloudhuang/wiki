@@ -27,14 +27,14 @@ jobs:
           mkdir -p "$save_to"
           cd "$save_to"
         
-          header = "
+          HEADER="
             ---
             title: $POST_TITLE
             date: $(date -d "$CREATED_AT" '+%Y-%m-%d')
             tags: ${{ join(github.event.issue.labels.*.name, ', ') }}
             ---
           "
-          echo $header >> index.md
+          echo $HEADER >> index.md
           echo "\n" >> index.md
           echo $POST_BODY >> index.md
           
