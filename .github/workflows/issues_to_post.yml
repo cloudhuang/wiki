@@ -24,9 +24,8 @@ jobs:
           save_to="content/posts/$YEAR/$POST_TITLE"
           mkdir -p "$save_to"
           cd "$save_to"
-          echo > index.md << EOF
-          $POST_BODY
-          EOF
+          echo $POST_BODY > index.md
+          
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
