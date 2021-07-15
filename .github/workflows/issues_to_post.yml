@@ -17,4 +17,8 @@ jobs:
           POST_BODY: ${{ github.event.issue.body }}
           CREATED_AT: ${{ github.event.issue.created_at }}
         run: |
-          echo "$POST_TITLE - $CREATED_AT" 
+          # echo "$POST_TITLE - $CREATED_AT"
+          YEAR=$(date -d "$CREATED_AT" '+%Y')
+          echo $YEAR
+          echo $POST_BODY        
+  
