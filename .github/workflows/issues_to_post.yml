@@ -22,6 +22,7 @@ jobs:
           # echo $YEAR
           # echo $POST_BODY        
           save_to="content/posts/$YEAR/$POST_TITLE"
+          mkdir -p "$save_to"
           cd "$save_to"
           echo > index.md << EOF
           $POST_BODY
