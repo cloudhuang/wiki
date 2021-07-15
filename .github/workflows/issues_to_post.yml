@@ -20,6 +20,8 @@ jobs:
         run: |
           # echo "$POST_TITLE - $CREATED_AT"
           YEAR=$(date -d "$CREATED_AT" '+%Y')
+          # Passing the var to next step
+          echo "PUBLISHED_YEAR=$HOME/data" >> $GITHUB_ENV
           # echo $YEAR
           # echo $POST_BODY        
           save_to="content/post/$YEAR/$POST_TITLE"
@@ -44,7 +46,7 @@ jobs:
           title: "publish: ${{ github.event.issue.title}}"
           body: |
             Automagically sprouted for publishing.
-            Merging will publish to: https://cloudhuang.github.io/post/$(date -d "$CREATED_AT" '+%Y')/${{ github.event.issue.title }}
+            Merging will publish to: https://cloudhuang.github.io/post/$PUBLISHED_YEAR/${{ github.event.issue.title }}
             Closes #${{ github.event.issue.number }}
           reviewers: "${{ github.repository_owner }}"
           commit-message: "post: ${{ github.event.issue.title }}"
