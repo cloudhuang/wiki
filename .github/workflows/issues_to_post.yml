@@ -17,6 +17,7 @@ jobs:
           POST_TITLE: ${{ github.event.issue.title }}
           POST_BODY: ${{ github.event.issue.body }}
           CREATED_AT: ${{ github.event.issue.created_at }}
+          UPDATED_AT: ${{ githhub.event.issue.updated_at }}
         run: |
           # echo "$POST_TITLE - $CREATED_AT"
           YEAR=$(date -d "$CREATED_AT" '+%Y')
@@ -31,6 +32,7 @@ jobs:
           echo "---" > index.md
           echo "title: $POST_TITLE" >> index.md
           echo "date: $(date -d "$CREATED_AT" '+%Y-%m-%d')" >> index.md
+          echo "lastmod: $(date -d "$UPDATED_AT" '+%Y-%m-%d')" >> index.md
           echo "tags: [${{ join(github.event.issue.labels.*.name, ', ') }}]" >> index.md
           echo "---" >> index.md
           
