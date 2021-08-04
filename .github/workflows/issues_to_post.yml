@@ -25,7 +25,7 @@ jobs:
           echo "PUBLISHED_YEAR=$YEAR" >> $GITHUB_ENV
           # echo $YEAR
           # echo $POST_BODY        
-          save_to="content/post/$YEAR/$POST_TITLE"
+          save_to="content/posts/$YEAR/$POST_TITLE"
           mkdir -p "$save_to"
           cd "$save_to"
         
@@ -39,16 +39,15 @@ jobs:
           echo "" >> index.md
           echo $POST_BODY >> index.md
           
-      - name: Create Pull Request
+      - name: Commit files
         env:
-          CREATED_AT: ${{ github.event.issue.created_at }}
-        uses: peter-evans/create-pull-request@v3
+          POST_TITLE: ${{ github.event.issue.title }}
+        run: |
+          git config --local user.email "liping.huang@live.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "Add new post $POST_TITLE" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
         with:
-          delete-branch: true
-          title: "publish: ${{ github.event.issue.title}}"
-          body: |
-            Automagically sprouted for publishing.
-            Merging will publish to: https://cloudhuang.github.io/post/${{ env.PUBLISHED_YEAR }}/${{ github.event.issue.title }}
-            Closes #${{ github.event.issue.number }}
-          reviewers: "${{ github.repository_owner }}"
-          commit-message: "post: ${{ github.event.issue.title }}"
+          github_token: ${{ secrets.ISSUE_TO_POST_DEPLOY_TOKEN }}
+          branch: ${{ github.ref }}
