@@ -1,0 +1,8 @@
+baseURL = "http://localhost"
+title = "WIKI"
+theme = "hugo-book"
+
+pluralizeListTitles = false
+[params]
+  BookSection = "wiki"
+  BookTheme = 'dark'
